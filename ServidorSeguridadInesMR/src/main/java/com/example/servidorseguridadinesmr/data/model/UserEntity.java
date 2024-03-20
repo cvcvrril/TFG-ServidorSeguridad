@@ -1,5 +1,9 @@
 package com.example.servidorseguridadinesmr.data.model;
 
+/**
+ * @author Inés Martínez Rodríguez
+ * **/
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
