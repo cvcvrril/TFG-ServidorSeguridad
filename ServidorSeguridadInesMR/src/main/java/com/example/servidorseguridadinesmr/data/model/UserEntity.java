@@ -16,6 +16,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "GET_ALL_USERS", query = "from UserEntity")
+})
 public class UserEntity {
 
     @Id
