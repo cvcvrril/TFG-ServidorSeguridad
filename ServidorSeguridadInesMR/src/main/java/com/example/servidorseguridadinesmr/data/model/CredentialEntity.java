@@ -25,5 +25,7 @@ public class CredentialEntity {
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "email", nullable = false)
+    private String email;
 
 }
