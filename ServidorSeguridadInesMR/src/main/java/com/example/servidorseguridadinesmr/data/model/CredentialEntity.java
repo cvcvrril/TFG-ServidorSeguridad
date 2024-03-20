@@ -19,8 +19,9 @@ import java.util.UUID;
 public class CredentialEntity {
 
     @Id
-    @Column(name = "id", nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
     @Column(name = "username", unique = true, nullable = false)
     private String username;
     @Column(name = "password", nullable = false)

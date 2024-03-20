@@ -32,7 +32,7 @@ public class UserEntity {
     @Column(name = "autenticado")
     private Boolean auth;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "credential")
     private CredentialEntity credential;
     @ManyToOne
     @JoinColumn(name = "rol")
