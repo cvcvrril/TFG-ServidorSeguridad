@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
  * @author Inés Martínez Rodríguez
  */
 
-@Component
 public class JPAUtil {
 
     private EntityManagerFactory emf;
