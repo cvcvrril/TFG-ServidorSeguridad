@@ -29,12 +29,7 @@ public class UserEntity {
     private String nombreCompleto;
     @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
-    @Column(name = "autenticado")
-    private Boolean auth;
     @OneToOne
     @JoinColumn(name = "credential")
     private CredentialEntity credential;
-    @ManyToOne
-    @JoinColumn(name = "rol")
-    private RolEntity rol;
 }

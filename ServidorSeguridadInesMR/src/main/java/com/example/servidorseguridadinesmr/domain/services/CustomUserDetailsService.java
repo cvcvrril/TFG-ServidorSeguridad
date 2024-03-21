@@ -31,8 +31,22 @@ public class CustomUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(userCredential.getUsername())
                 .password(userCredential.getPassword())
-                //.roles(userCredential.getRole())
+                .roles(userCredential.getRol().getRolName())
                 .build();
 
+    }
+
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException{
+        CredentialEntity userCredential = credentialsRepository.findByEmail(email);
+
+        if (userCredential == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return User.builder()
+                .username(userCredential.getUsername())
+                .password(userCredential.getPassword())
+                .roles(userCredential.getRol().getRolName())
+                .build();
     }
 }

@@ -8,6 +8,7 @@ import io.vavr.control.Either;
 import jakarta.persistence.EntityManager;
 import lombok.extern.log4j.Log4j2;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Log4j2
@@ -32,7 +33,7 @@ public class DaoUserImpl implements DaoUser {
             res = Either.right(userList);
         }catch (Exception e){
             log.error(e.getMessage(), e);
-            res = Either.left(new ErrorSec());
+            res = Either.left(new ErrorSec(0, e.getMessage(), LocalDateTime.now()));
         }
         return res;
     }

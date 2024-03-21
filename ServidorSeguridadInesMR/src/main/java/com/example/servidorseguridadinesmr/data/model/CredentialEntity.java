@@ -16,6 +16,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "credentials")
+@NamedQueries({
+        @NamedQuery(name = "GET_CREDENTIALS_BY_USERNAME", query = "from CredentialEntity where username = :username"),
+        @NamedQuery(name = "GET_CREDENTIALS_BY_EMAIL", query = "from CredentialEntity where email = :email")
+})
 public class CredentialEntity {
 
     @Id
@@ -28,5 +32,10 @@ public class CredentialEntity {
     private String password;
     @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "autenticado")
+    private Boolean auth;
+    @ManyToOne
+    @JoinColumn(name = "rol")
+    private RolEntity rol;
 
 }

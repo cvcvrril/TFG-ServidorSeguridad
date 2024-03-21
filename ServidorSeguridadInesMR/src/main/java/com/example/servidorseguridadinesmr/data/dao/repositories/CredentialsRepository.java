@@ -16,4 +16,8 @@ public class CredentialsRepository {
     public CredentialEntity findByUsername(String username) {
         return daoCredential.findByUsername(username).get();
     }
+
+    public CredentialEntity findByEmail(String email) {
+        return daoCredential.findByEmail(email).get();
+    }
 }

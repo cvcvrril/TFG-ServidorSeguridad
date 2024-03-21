@@ -1,15 +1,15 @@
 package com.example.servidorseguridadinesmr.common;
 
 import com.example.servidorseguridadinesmr.data.dao.DaoCredential;
+import com.example.servidorseguridadinesmr.data.dao.DaoUser;
 import com.example.servidorseguridadinesmr.data.dao.connection.JPAUtil;
 import com.example.servidorseguridadinesmr.data.dao.impl.DaoCredentialImpl;
+import com.example.servidorseguridadinesmr.data.dao.impl.DaoUserImpl;
 import com.example.servidorseguridadinesmr.data.dao.repositories.CredentialsRepository;
 import com.example.servidorseguridadinesmr.domain.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +29,12 @@ public class Configuration {
 
     @Bean
     public DaoCredential daoCredential(){
-        return new DaoCredentialImpl();
+        return new DaoCredentialImpl(jpaUtil());
+    }
+
+    @Bean
+    public DaoUser daoUser(){
+        return new DaoUserImpl(jpaUtil());
     }
 
     //@Bean
