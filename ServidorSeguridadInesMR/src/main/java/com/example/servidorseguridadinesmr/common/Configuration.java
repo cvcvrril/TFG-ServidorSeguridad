@@ -8,6 +8,7 @@ import com.example.servidorseguridadinesmr.data.dao.impl.DaoUserImpl;
 import com.example.servidorseguridadinesmr.data.dao.repositories.CredentialsRepository;
 import com.example.servidorseguridadinesmr.domain.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -56,6 +57,11 @@ public class Configuration {
     @Bean
     public UserDetailsService userDetailsService(CredentialsRepository userRepository) {
         return new CustomUserDetailsService(userRepository);
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
 }
