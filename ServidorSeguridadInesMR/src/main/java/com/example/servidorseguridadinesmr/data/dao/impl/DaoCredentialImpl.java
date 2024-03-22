@@ -2,7 +2,7 @@ package com.example.servidorseguridadinesmr.data.dao.impl;
 
 import com.example.servidorseguridadinesmr.data.dao.DaoCredential;
 import com.example.servidorseguridadinesmr.data.dao.connection.JPAUtil;
-import com.example.servidorseguridadinesmr.data.model.CredentialEntity;
+import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
 import io.vavr.control.Either;
 import jakarta.persistence.EntityManager;

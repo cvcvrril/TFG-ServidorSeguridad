@@ -1,6 +1,6 @@
 package com.example.servidorseguridadinesmr.data.dao;
 
-import com.example.servidorseguridadinesmr.data.model.UserEntity;
+import com.example.servidorseguridadinesmr.data.model.entities.UserEntity;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
 import io.vavr.control.Either;
 
@@ -16,4 +16,5 @@ public interface DaoUser {
 
     Either<ErrorSec, List<UserEntity>> getAll();
 
+    Either<ErrorSec, UserEntity> add(UserEntity nuevoUserEntity);
 }

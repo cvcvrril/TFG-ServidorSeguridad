@@ -2,7 +2,7 @@ package com.example.servidorseguridadinesmr.domain.services;
 
 
 import com.example.servidorseguridadinesmr.data.dao.repositories.CredentialsRepository;
-import com.example.servidorseguridadinesmr.data.model.CredentialEntity;
+import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

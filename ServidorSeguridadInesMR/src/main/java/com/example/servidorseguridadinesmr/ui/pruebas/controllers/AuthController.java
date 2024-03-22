@@ -2,13 +2,12 @@ package com.example.servidorseguridadinesmr.ui.pruebas.controllers;
 
 import com.example.servidorseguridadinesmr.data.model.AuthenticationRequest;
 import com.example.servidorseguridadinesmr.data.model.AuthenticationResponse;
-import com.example.servidorseguridadinesmr.data.model.CredentialEntity;
+import com.example.servidorseguridadinesmr.data.model.UserResponse;
+import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
+import com.example.servidorseguridadinesmr.domain.model.UserDTO;
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +25,11 @@ public class AuthController {
     public AuthenticationResponse loginAuth(@RequestParam("username") String username, @RequestParam("password") String password) {
         AuthenticationRequest requestAuth = new AuthenticationRequest(username, password);
         return service.authenticate(requestAuth);
+    }
+
+    @PostMapping("/registro")
+    public UserResponse registroAuth(@RequestBody UserDTO newUser) {
+        return service.registro(newUser).getOrElseThrow( () -> new RuntimeException());
     }
 
 }

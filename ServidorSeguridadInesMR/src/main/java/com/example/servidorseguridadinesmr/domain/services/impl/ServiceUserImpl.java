@@ -1,7 +1,7 @@
 package com.example.servidorseguridadinesmr.domain.services.impl;
 
 import com.example.servidorseguridadinesmr.data.dao.DaoUser;
-import com.example.servidorseguridadinesmr.data.model.UserEntity;
+import com.example.servidorseguridadinesmr.data.model.entities.UserEntity;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
 import com.example.servidorseguridadinesmr.domain.services.ServiceUser;
 import io.vavr.control.Either;

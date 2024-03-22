@@ -1,7 +1,7 @@
 package com.example.servidorseguridadinesmr.data.dao.repositories;
 
 import com.example.servidorseguridadinesmr.data.dao.DaoCredential;
-import com.example.servidorseguridadinesmr.data.model.CredentialEntity;
+import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository

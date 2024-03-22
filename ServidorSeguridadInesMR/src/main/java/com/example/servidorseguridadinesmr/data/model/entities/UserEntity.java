@@ -1,4 +1,4 @@
-package com.example.servidorseguridadinesmr.data.model;
+package com.example.servidorseguridadinesmr.data.model.entities;
 
 /**
  * @author Inés Martínez Rodríguez
