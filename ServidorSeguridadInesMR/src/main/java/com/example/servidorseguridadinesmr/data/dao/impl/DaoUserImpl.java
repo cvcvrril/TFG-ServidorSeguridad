@@ -41,11 +41,6 @@ public class DaoUserImpl implements DaoUser {
 
     @Override
     public Either<ErrorSec, UserEntity> add(UserEntity nuevoUserEntity) {
-
-        /**
-         * Primero se añade la credencial a base de datos, y luego el usuario ;)
-         * **/
-
         Either<ErrorSec, UserEntity> res;
         em = jpaUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -62,7 +57,6 @@ public class DaoUserImpl implements DaoUser {
         }finally {
             if (em != null) em.close();
         }
-
         return res;
     }
 }

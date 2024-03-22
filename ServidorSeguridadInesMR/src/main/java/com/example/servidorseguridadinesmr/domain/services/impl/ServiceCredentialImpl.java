@@ -26,15 +26,8 @@ import java.time.LocalDateTime;
 public class ServiceCredentialImpl implements ServiceCredential {
 
     private final DaoCredential daoCredential;
-    private final DaoUser daoUser;
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordHash;
-
-    @Override
-    public Either<ErrorSec, CredentialEntity> findByUsername(String username) {
-        return daoCredential.findByUsername(username);
-    }
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -58,34 +51,6 @@ public class ServiceCredentialImpl implements ServiceCredential {
             throw new RuntimeException();
         }
 
-
-    }
-
-    @Override
-    public Either<ErrorSec, UserResponse> registro(UserDTO nuevoUser) {
-        Either<ErrorSec, UserResponse> res;
-        if (nuevoUser.getUsername() == null && nuevoUser.getPassword() == null && nuevoUser.getEmail() == null) {
-            res = Either.left(new ErrorSec());
-        } else {
-            try {
-                String passwordHashed = hashPassword(nuevoUser.getPassword());
-                CredentialEntity nuevaCredentialEntity = new CredentialEntity(0, nuevoUser.getUsername(), passwordHashed, nuevoUser.getEmail(), false, new RolEntity(1, "USER"));
-                UserEntity nuevoUserEntity = new UserEntity(0,nuevoUser.getNombreCompleto(),nuevoUser.getFechaNacimiento(), nuevaCredentialEntity);
-                if (daoUser.add(nuevoUserEntity).isRight()){
-                    UserResponse nuevoUserResponse = new UserResponse(nuevoUser.getUsername(), nuevoUser.getEmail(),nuevoUser.getNombreCompleto(), nuevaCredentialEntity.getRol().getRolName());
-                    res = Either.right(nuevoUserResponse);
-                }else {
-                    res = Either.left(new ErrorSec(0, "There was an error while saving the new user", LocalDateTime.now()));
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
-            }
-        }
-        return res;
-    }
-
-    private String hashPassword(String password) {
-        return passwordHash.encode(password);
     }
 
 }
