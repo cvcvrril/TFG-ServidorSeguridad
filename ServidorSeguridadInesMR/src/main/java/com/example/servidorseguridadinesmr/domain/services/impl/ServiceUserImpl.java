@@ -7,6 +7,7 @@ import com.example.servidorseguridadinesmr.data.model.entities.RolEntity;
 import com.example.servidorseguridadinesmr.data.model.entities.UserEntity;
 import com.example.servidorseguridadinesmr.domain.model.UserDTO;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
+import com.example.servidorseguridadinesmr.domain.services.EmailService;
 import com.example.servidorseguridadinesmr.domain.services.ServiceUser;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class ServiceUserImpl implements ServiceUser {
 
     private final DaoUser daoUser;
     private final PasswordEncoder passwordHash;
+    private final EmailService emailService;
 
     @Override
     public Either<ErrorSec, List<UserEntity>> getAll() {
@@ -40,6 +42,7 @@ public class ServiceUserImpl implements ServiceUser {
                 UserEntity nuevoUserEntity = new UserEntity(0,nuevoUser.getNombreCompleto(),nuevoUser.getFechaNacimiento(), nuevaCredentialEntity);
                 if (daoUser.add(nuevoUserEntity).isRight()){
                     UserResponse nuevoUserResponse = new UserResponse(nuevoUser.getUsername(), nuevoUser.getEmail(),nuevoUser.getNombreCompleto(), nuevaCredentialEntity.getRol().getRolName());
+                    emailService.sendSimpleMessage(nuevoUser.getEmail());
                     res = Either.right(nuevoUserResponse);
                 }else {
                     res = Either.left(new ErrorSec(0, "There was an error while saving the new user", LocalDateTime.now()));
