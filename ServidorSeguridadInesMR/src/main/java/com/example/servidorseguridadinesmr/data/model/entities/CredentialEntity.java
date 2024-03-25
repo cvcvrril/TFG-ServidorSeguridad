@@ -32,6 +32,8 @@ public class CredentialEntity {
     private String email;
     @Column(name = "autenticado")
     private Boolean auth;
+    @Column(name = "auth_code")
+    private String authCode;
     @ManyToOne
     @JoinColumn(name = "rol")
     private RolEntity rol;

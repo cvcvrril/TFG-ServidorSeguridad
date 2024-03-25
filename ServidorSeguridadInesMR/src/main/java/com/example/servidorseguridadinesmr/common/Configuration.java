@@ -7,6 +7,7 @@ import com.example.servidorseguridadinesmr.data.dao.impl.DaoCredentialImpl;
 import com.example.servidorseguridadinesmr.data.dao.impl.DaoUserImpl;
 import com.example.servidorseguridadinesmr.data.dao.repositories.CredentialsRepository;
 import com.example.servidorseguridadinesmr.domain.services.CustomUserDetailsService;
+import com.example.servidorseguridadinesmr.utils.RandomBytesGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -99,6 +100,11 @@ public class Configuration {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public RandomBytesGenerator randomBytesGenerator(){
+        return new RandomBytesGenerator();
     }
 
 }
