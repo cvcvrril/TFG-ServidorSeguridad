@@ -7,6 +7,7 @@ import com.example.servidorseguridadinesmr.data.dao.impl.DaoCredentialImpl;
 import com.example.servidorseguridadinesmr.data.dao.impl.DaoUserImpl;
 import com.example.servidorseguridadinesmr.data.dao.repositories.CredentialsRepository;
 import com.example.servidorseguridadinesmr.domain.services.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,6 +24,15 @@ import java.util.Properties;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration {
+
+    @Value("${spring.mail.username}")
+    private String fromEmail;
+    @Value("${spring.mail.password}")
+    private String fromPassword;
+    @Value("${spring.mail.host}")
+    private String mailHost;
+    @Value("${spring.mail.port}")
+    private int mailPort;
 
     @Bean
     public JPAUtil jpaUtil(){
@@ -56,11 +66,11 @@ public class Configuration {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
+        mailSender.setHost(mailHost);
+        mailSender.setPort(mailPort);
 
-        mailSender.setUsername("alumnosdamquevedo@gmail.com");
-        mailSender.setPassword("uyhqfbbfmszvuykt");
+        mailSender.setUsername(fromEmail);
+        mailSender.setPassword(fromPassword);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
