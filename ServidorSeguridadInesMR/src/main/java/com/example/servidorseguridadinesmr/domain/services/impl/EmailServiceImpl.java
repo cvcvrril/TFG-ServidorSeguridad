@@ -22,11 +22,6 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmailActivacion(String to, String authCode) {
-
-        /**
-         * Usar el authCode para derivar a X sitio donde hacer la activación
-         * **/
-
         MimeMessage message = emailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);

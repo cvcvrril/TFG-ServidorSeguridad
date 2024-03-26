@@ -7,6 +7,7 @@ import com.example.servidorseguridadinesmr.data.model.entities.RolEntity;
 import com.example.servidorseguridadinesmr.data.model.entities.UserEntity;
 import com.example.servidorseguridadinesmr.domain.model.UserDTO;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
+import com.example.servidorseguridadinesmr.domain.model.error.exceptions.ValidationException;
 import com.example.servidorseguridadinesmr.domain.services.EmailService;
 import com.example.servidorseguridadinesmr.domain.services.ServiceUser;
 import com.example.servidorseguridadinesmr.utils.RandomBytesGenerator;
@@ -69,7 +70,7 @@ public class ServiceUserImpl implements ServiceUser {
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches()){
-            throw new RuntimeException("El email introducido no es válido");
+            throw new ValidationException("El email introducido no es válido");
         }
     }
 }

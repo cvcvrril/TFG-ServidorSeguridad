@@ -1,5 +1,6 @@
 package com.example.servidorseguridadinesmr.domain.services.impl;
 
+import com.example.servidorseguridadinesmr.domain.model.error.exceptions.DatabaseException;
 import com.example.servidorseguridadinesmr.domain.services.ServiceJWT;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -64,10 +65,10 @@ public class ServiceJWTImpl implements ServiceJWT {
             if (pkEntry != null) {
                 return pkEntry.getPrivateKey();
             } else {
-                throw new RuntimeException("No se encontró la entrada de la clave privada en la keystore");
+                throw new DatabaseException("No se encontró la entrada de la clave privada en la keystore");
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error al cargar la clave privada de la keystore");
+            throw new DatabaseException("Error al cargar la clave privada de la keystore");
         }
     }
 }

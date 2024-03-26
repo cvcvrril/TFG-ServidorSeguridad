@@ -5,6 +5,7 @@ import com.example.servidorseguridadinesmr.data.model.AuthenticationRequest;
 import com.example.servidorseguridadinesmr.data.model.AuthenticationResponse;
 import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
+import com.example.servidorseguridadinesmr.domain.model.error.exceptions.ValidationException;
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;
 import com.example.servidorseguridadinesmr.domain.services.ServiceJWT;
 import io.vavr.control.Either;
@@ -33,12 +34,16 @@ public class ServiceCredentialImpl implements ServiceCredential {
         );
         var user = userDetailsService.loadUserByUsername(request.username());
         if (user != null) {
-            var jwtToken = serviceJWT.generateAccessToken(user.getUsername(), "Prueba");
-            var refreshToken = serviceJWT.generateRefreshToken(user.getUsername());
-            return AuthenticationResponse.builder()
-                    .accessToken(jwtToken)
-                    .refreshToken(refreshToken)
-                    .build();
+            if (!checkActivation(user.getUsername())){
+                throw new ValidationException("Debe de activar la cuenta");
+            }else {
+                var jwtToken = serviceJWT.generateAccessToken(user.getUsername(), "Prueba");
+                var refreshToken = serviceJWT.generateRefreshToken(user.getUsername());
+                return AuthenticationResponse.builder()
+                        .accessToken(jwtToken)
+                        .refreshToken(refreshToken)
+                        .build();
+            }
         } else {
             throw new RuntimeException();
         }
@@ -53,6 +58,13 @@ public class ServiceCredentialImpl implements ServiceCredential {
     @Override
     public Either<ErrorSec, Integer> update(CredentialEntity credentialUpdated) {
         return daoCredential.update(credentialUpdated);
+    }
+
+    private boolean checkActivation(String username){
+        boolean res;
+        CredentialEntity credential = daoCredential.findByUsername(username).getOrElseThrow(()-> new ValidationException("No existe la cuenta con ese username"));
+        res = credential.getAuth().equals(true);
+        return res;
     }
 
 }
