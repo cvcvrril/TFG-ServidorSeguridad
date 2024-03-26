@@ -16,7 +16,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "credentials")
 @NamedQueries({
         @NamedQuery(name = "GET_CREDENTIALS_BY_USERNAME", query = "from CredentialEntity where username = :username"),
-        @NamedQuery(name = "GET_CREDENTIALS_BY_EMAIL", query = "from CredentialEntity where email = :email")
+        @NamedQuery(name = "GET_CREDENTIALS_BY_EMAIL", query = "from CredentialEntity where email = :email"),
+        @NamedQuery(name = "GET_CREDENTIALS_BY_AUTH_CODE", query = "from CredentialEntity where authCode = :authCode")
 })
 public class CredentialEntity {
 

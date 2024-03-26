@@ -8,6 +8,7 @@ import io.vavr.control.Either;
 public interface DaoCredential {
 
     Either<ErrorSec, CredentialEntity> findByUsername(String username);
-
     Either<ErrorSec, CredentialEntity> findByEmail(String email);
+    Either<ErrorSec, CredentialEntity> findByAuthCode(String authCode);
+    Either<ErrorSec, Integer> update(CredentialEntity credentialUpdated);
 }
