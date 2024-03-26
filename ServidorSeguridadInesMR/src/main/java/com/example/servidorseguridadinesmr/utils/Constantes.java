@@ -11,15 +11,12 @@ public class Constantes {
     public static final String AES = "AES";
     public static final String AES_GCM_NO_PADDING = "AES/GCM/noPadding";
     public static final String KEY_STORE_PASSWORD = "${KeyStorePassword}";
-
-    private static final String[] WHITE_LIST_URL = {
+    public static final String[] WHITE_LIST_URL = {
             "/auth/login",
             "/auth/registro",
-            "/v3/api-docs/**",
-            "/swagger-resources/**",
-            "/swagger-ui/**",
-            "/v2/api-docs/**"
+            "/activation",
     };
+
     public static final String ACCESS_TOKEN = "access_token";
     public static final String REFRESH_TOKEN = "refresh_token";
     public static final String TABLE_ROLES = "roles";
@@ -44,4 +41,7 @@ public class Constantes {
     public static final String REQUEST_PARAM_PASSWORD = "password";
     public static final String DESCRIPCION_POR_DEFECTO_PERSONAJE = "Personaje añadido por el usuario";
     public static final String USER_EMPTY = "User vacío";
+
+    public Constantes() {
+    }
 }
