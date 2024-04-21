@@ -12,6 +12,7 @@ public interface ServiceCredential {
 
     AuthenticationResponse authenticate(AuthenticationRequest request);
     Either<ErrorSec, CredentialEntity> findByAuthCode(String authCode);
+    Either<ErrorSec, CredentialEntity> findByEmail(String email);
     Either<ErrorSec, Integer> update(CredentialEntity credentialUpdated);
 
 }

@@ -33,6 +33,10 @@ public class CredentialEntity {
     private String email;
     @Column(name = "autenticado")
     private Boolean auth;
+    @Column(name = "baja")
+    private Boolean baja;
+    @Column(name = "pass")
+    private Boolean pass;
     @Column(name = "auth_code")
     private String authCode;
     @ManyToOne

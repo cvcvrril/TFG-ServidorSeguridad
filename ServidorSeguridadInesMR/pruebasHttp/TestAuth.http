@@ -1,0 +1,47 @@
+### Login user ines
+
+#Login exitoso usando usuario "ines"
+
+GET http://localhost:8081/auth/login?username=ines&password=ines
+Accept: application/json
+Content-Type: application/json
+
+> {%
+    client.test("login exitoso ines", function () {
+        client.assert(response.status ===200, "status code: 200")
+    })
+    client.global.set("usertoken", response.body.accessToken)
+%}
+
+### Login user ines wrong password
+
+#Login erroneo usando usuario "ines" pero contraseña incorrecta
+#Debe de devolver el mensaje de errorº
+
+GET http://localhost:8081/auth/login?username=ines&password=hola
+Accept: application/json
+Content-Type: application/json
+
+> {%
+    client.test("login erroneo ines", function () {
+        client.assert(response.status ===403, "status code: 403")
+    })
+    client.global.set("usertoken", response.body.accessToken)
+%}
+
+### Login user martina
+
+#Login exitoso usando usuario "martina"
+
+GET http://localhost:8081/auth/login?username=martina&password=martina
+Accept: application/json
+Content-Type: application/json
+
+> {%
+    client.test("login exitoso ines", function () {
+        client.assert(response.status ===200, "status code: 200")
+    })
+    client.global.set("usertoken", response.body.accessToken)
+%}
+
+

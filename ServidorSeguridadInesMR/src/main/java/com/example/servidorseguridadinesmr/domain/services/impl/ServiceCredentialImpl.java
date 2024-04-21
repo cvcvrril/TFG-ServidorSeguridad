@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class ServiceCredentialImpl implements ServiceCredential {
 
     private final DaoCredential daoCredential;
-    private final UserDetailsService userDetailsService;
+    //private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final ServiceJWT serviceJWT;
 
@@ -32,13 +32,14 @@ public class ServiceCredentialImpl implements ServiceCredential {
                         request.password()
                 )
         );
-        var user = userDetailsService.loadUserByUsername(request.username());
-        if (user != null) {
-            if (!checkActivation(user.getUsername())){
+        //var user = userDetailsService.loadUserByUsername(request.username());
+        CredentialEntity credential = daoCredential.findByUsername(request.username()).getOrElseThrow(()-> new ValidationException("No se ha encontrado una cuenta con ese username"));
+        if (credential != null) {
+            if (!checkActivation(credential.getUsername())){
                 throw new ValidationException("Debe de activar la cuenta");
             }else {
-                var jwtToken = serviceJWT.generateAccessToken(user.getUsername(), "Prueba");
-                var refreshToken = serviceJWT.generateRefreshToken(user.getUsername());
+                var jwtToken = serviceJWT.generateAccessToken(credential.getUsername(), credential.getRol().getRolName());
+                var refreshToken = serviceJWT.generateRefreshToken(credential.getUsername());
                 return AuthenticationResponse.builder()
                         .accessToken(jwtToken)
                         .refreshToken(refreshToken)
@@ -56,6 +57,11 @@ public class ServiceCredentialImpl implements ServiceCredential {
     }
 
     @Override
+    public Either<ErrorSec, CredentialEntity> findByEmail(String email) {
+        return daoCredential.findByEmail(email);
+    }
+
+    @Override
     public Either<ErrorSec, Integer> update(CredentialEntity credentialUpdated) {
         return daoCredential.update(credentialUpdated);
     }
@@ -63,7 +69,11 @@ public class ServiceCredentialImpl implements ServiceCredential {
     private boolean checkActivation(String username){
         boolean res;
         CredentialEntity credential = daoCredential.findByUsername(username).getOrElseThrow(()-> new ValidationException("No existe la cuenta con ese username"));
-        res = credential.getAuth().equals(true);
+        if (credential.getBaja().equals(false)){
+            res = credential.getAuth().equals(true);
+        }else {
+         throw  new ValidationException("La cuenta está dada de baja");
+        }
         return res;
     }
 

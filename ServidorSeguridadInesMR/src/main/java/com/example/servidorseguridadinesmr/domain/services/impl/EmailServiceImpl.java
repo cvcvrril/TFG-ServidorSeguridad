@@ -38,7 +38,22 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
-
+    @Override
+    public void sendEmailForgotPassword(String to,  String authCode) {
+        MimeMessage message = emailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(fromEmail);
+            helper.setTo(to);
+            helper.setSubject("Recuperación de la cuenta");
+            helper.setText(
+                    "<html><body><p>¡Saludos!</p></br><p>Al parecer has olvidado tu contraseña para acceder a tu cuenta.</p></br><p>Para cambiarla haga click en el <a href=\"http://192.168.104.104:8081/forgotPassword?authCode=" + authCode + "\">siguiente enlace</a></p><p>Si no quiere cambiar la contraseña, ignore el mensaje.</p></body></html>",true
+            );
+            emailSender.send(message);
+        }catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

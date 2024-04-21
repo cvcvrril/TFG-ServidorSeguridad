@@ -38,24 +38,24 @@ public class ServiceUserImpl implements ServiceUser {
     @Override
     public Either<ErrorSec, UserResponse> registro(UserDTO nuevoUser) {
         Either<ErrorSec, UserResponse> res;
-        if (nuevoUser.getUsername() == null && nuevoUser.getPassword() == null && nuevoUser.getEmail() == null) {
-            res = Either.left(new ErrorSec());
+        if (nuevoUser.getUsername() == null || nuevoUser.getPassword() == null || nuevoUser.getEmail() == null || nuevoUser.getUsername().equals("") || nuevoUser.getPassword().equals("") || nuevoUser.getEmail().equals("")) {
+            throw new ValidationException("Hay alguno de los campos vacíos");
         } else {
             try {
                 checkEmailRegex(nuevoUser.getEmail());
                 String passwordHashed = hashPassword(nuevoUser.getPassword());
                 String newAuthCode = randomBytesGenerator.randomBytes();
-                CredentialEntity nuevaCredentialEntity = new CredentialEntity(0, nuevoUser.getUsername(), passwordHashed, nuevoUser.getEmail(), false, newAuthCode, new RolEntity(1, "USER"));
+                CredentialEntity nuevaCredentialEntity = new CredentialEntity(0, nuevoUser.getUsername(), passwordHashed, nuevoUser.getEmail(), false, false, false, newAuthCode, new RolEntity(1, "USER"));
                 UserEntity nuevoUserEntity = new UserEntity(0,nuevoUser.getNombreCompleto(),nuevoUser.getFechaNacimiento(), nuevaCredentialEntity);
                 if (daoUser.add(nuevoUserEntity).isRight()){
                     UserResponse nuevoUserResponse = new UserResponse(nuevoUser.getUsername(), nuevoUser.getEmail(),nuevoUser.getNombreCompleto(), nuevaCredentialEntity.getRol().getRolName());
                     emailService.sendEmailActivacion(nuevoUser.getEmail(), newAuthCode);
                     res = Either.right(nuevoUserResponse);
                 }else {
-                    res = Either.left(new ErrorSec(0, "There was an error while saving the new user", LocalDateTime.now()));
+                    throw new ValidationException("Hubo un error en la validación de los datos");
                 }
             } catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
+                throw new ValidationException(e.getMessage());
             }
         }
         return res;
