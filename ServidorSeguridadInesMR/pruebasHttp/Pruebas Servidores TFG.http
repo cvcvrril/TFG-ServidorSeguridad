@@ -1,0 +1,145 @@
+# Pruebas Servidores TFG
+
+###
+# @name Login ines
+GET http://localhost:8081/auth/login?
+    username=ines&
+    password=ines
+
+> {%
+    client.global.set("accessToken", response.body.accessToken)
+    client.global.set("refreshToken", response.body.refreshToken)
+    client.test("login ines correcto", function () {
+        client.assert(response.status ===200, "status es 200")
+    })
+%}
+
+
+###
+# @name Login usuario
+GET http://localhost:8081/auth/login?
+    username=martina&
+    password=martina
+
+> {%
+    client.test("login usuario correcto", function () {
+        client.assert(response.status ===200, "El status code es 200")
+    })
+%}
+
+###
+# @name Registro nuevo usuario
+POST http://localhost:8081/auth/registro
+Content-Type: application/json
+
+{
+  "username": "martina",
+  "password": "martina",
+  "email": "ines07mar@gmail.com",
+  "nombreCompleto": "Martina Salinas",
+  "fechaNacimiento": "2000-01-01"
+}
+> {%
+    client.test("registro usuario correcto", function () {
+        client.assert(response.status ===200, "El status code es 200")
+    })
+%}
+
+###
+# @name Registro nuevo usuario incorrecto
+POST http://localhost:8081/auth/registro
+Content-Type: application/json
+
+{
+  "username": "",
+  "password": "pepa",
+  "email": "ines07mar@gmailcom",
+  "nombreCompleto": "Pepita Lola",
+  "fechaNacimiento": "2000-01-01"
+}
+
+> {%
+    client.test("registro usuario incorrecto", function () {
+        client.assert(response.status ===400, "El status code es 400")
+    })
+%}
+
+###
+# @name GetAll Ubicaciones
+GET http://localhost:8082/ubi/all
+Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{refreshToken}}
+
+> {%
+    client.test("petición GET correcto", function () {
+        client.assert(response.status ===200, "El status code es 200")
+    })
+%}
+
+###
+# @name GetUbicacionById
+GET http://localhost:8082/ubi/ubicacion?
+    id=3
+Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{refreshToken}}
+
+> {%
+    client.test("petición GET correcto", function () {
+        client.assert(response.status ===200, "El status code es 200")
+    })
+%}
+
+###
+# @name GetAllUbicacionesByUserId
+GET http://localhost:8082/ubi/ubiuser?
+    id_user=1
+Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{refreshToken}}
+
+> {%
+    client.test("petición GET correcto", function () {
+        client.assert(response.status ===200, "El status code es 200")
+    })
+%}
+
+###
+# @name AddUbicacion
+POST http://localhost:8082/ubi/add
+Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{refreshToken}}
+Content-Type: application/json
+
+{
+  "lat": 40.42532411660113,
+  "lon": -3.7106484899038312,
+  "idUser": 1
+}
+> {%
+    client.test("petición POST correcto", function () {
+        client.assert(response.status ===200, "El status code es 200")
+    })
+%}
+
+###
+# @name DeleteUbicacionById
+DELETE http://localhost:8082/ubi/delete?
+    id=6
+Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{refreshToken}}
+
+> {%
+    client.test("petición DELETE correcto", function () {
+        client.assert(response.status ===200, "El status code es 200")
+    })
+%}
+
+###
+# @name ForgotPassword
+POST http://localhost:8081/auth/forgotPassword?
+    email=inesysoniadam@gmail.com
+
+> {%
+    client.test("envío del email correcto", function () {
+        client.assert(response.status ===200, "El status code es 200")
+    })
+%}

@@ -33,11 +33,6 @@ public class AuthController {
         return serviceUser.registro(newUser).getOrElseThrow( () -> new RuntimeException());
     }
 
-    @PostMapping("/logout")
-    public String logoutAuth(HttpServletRequest request){
-        return null;
-    }
-
     //TODO: CAMBIAR ESTO JEJE
 
     @PostMapping("/forgotPassword")
@@ -48,6 +43,11 @@ public class AuthController {
         }else {
             emailService.sendEmailForgotPassword(credential.getEmail(), credential.getAuthCode());
         }
+    }
+
+
+    public String refreshToken(){
+        return "";
     }
 
 }

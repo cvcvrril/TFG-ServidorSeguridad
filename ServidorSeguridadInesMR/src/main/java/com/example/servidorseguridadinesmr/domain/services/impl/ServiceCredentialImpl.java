@@ -43,10 +43,11 @@ public class ServiceCredentialImpl implements ServiceCredential {
                 return AuthenticationResponse.builder()
                         .accessToken(jwtToken)
                         .refreshToken(refreshToken)
+                        .idUser(String.valueOf(credential.getId()))
                         .build();
             }
         } else {
-            throw new RuntimeException();
+            throw new ValidationException("No hay credenciales con ese username");
         }
 
     }

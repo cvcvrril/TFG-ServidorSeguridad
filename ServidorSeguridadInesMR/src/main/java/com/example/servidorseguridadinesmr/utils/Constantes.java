@@ -15,6 +15,7 @@ public class Constantes {
             "/auth/login",
             "/auth/registro",
             "/activation",
+            "/auth/forgotPassword",
             "/forgotPassword",
     };
 
