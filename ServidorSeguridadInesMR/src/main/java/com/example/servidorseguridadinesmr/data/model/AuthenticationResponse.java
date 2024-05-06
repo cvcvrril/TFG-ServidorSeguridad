@@ -13,5 +13,5 @@ public class AuthenticationResponse {
 
   private String accessToken;
   private String refreshToken;
-  private String idUser;
+  private Integer idUser;
 }

@@ -43,7 +43,7 @@ public class ServiceCredentialImpl implements ServiceCredential {
                 return AuthenticationResponse.builder()
                         .accessToken(jwtToken)
                         .refreshToken(refreshToken)
-                        .idUser(String.valueOf(credential.getId()))
+                        .idUser(credential.getId())
                         .build();
             }
         } else {

@@ -33,8 +33,6 @@ public class AuthController {
         return serviceUser.registro(newUser).getOrElseThrow( () -> new RuntimeException());
     }
 
-    //TODO: CAMBIAR ESTO JEJE
-
     @PostMapping("/forgotPassword")
     public void forgotPassword(@RequestParam("email") String email){
         CredentialEntity credential = serviceCredential.findByEmail(email).get();
