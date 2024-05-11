@@ -1,6 +1,7 @@
 package com.example.servidorseguridadinesmr.data.dao.impl;
 
 import com.example.servidorseguridadinesmr.data.dao.connection.JPAUtil;
+import com.example.servidorseguridadinesmr.data.model.UserResponse;
 import com.example.servidorseguridadinesmr.data.model.entities.UserEntity;
 import com.example.servidorseguridadinesmr.data.dao.DaoUser;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
@@ -32,6 +33,26 @@ public class DaoUserImpl implements DaoUser {
                     .createNamedQuery("GET_ALL_USERS", UserEntity.class)
                     .getResultList();
             res = Either.right(userList);
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+            res = Either.left(new ErrorSec(0, e.getMessage(), LocalDateTime.now()));
+        }
+        return res;
+    }
+
+    @Override
+    public Either<ErrorSec, UserResponse> getUserById(int id) {
+        Either<ErrorSec, UserResponse> res;
+        List<UserEntity> userList;
+        em = jpaUtil.getEntityManager();
+        try {
+            userList = em
+                    .createNamedQuery("GET_ALL_USERS_BY_ID", UserEntity.class)
+                    .setParameter("id", id)
+                    .getResultList();
+            UserEntity userEntity = userList.get(0);
+            UserResponse userResponse = new UserResponse(userEntity.getCredential().getUsername(), userEntity.getCredential().getEmail(), userEntity.getNombreCompleto(), userEntity.getCredential().getRol().getRolName());
+            res = Either.right(userResponse);
         }catch (Exception e){
             log.error(e.getMessage(), e);
             res = Either.left(new ErrorSec(0, e.getMessage(), LocalDateTime.now()));

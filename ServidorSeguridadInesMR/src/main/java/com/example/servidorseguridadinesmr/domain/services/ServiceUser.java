@@ -11,6 +11,7 @@ import java.util.List;
 public interface ServiceUser {
 
     Either<ErrorSec, List<UserEntity>> getAll();
+    Either<ErrorSec, UserResponse> getUserById(int id);
     Either<ErrorSec, UserResponse> registro(UserDTO nuevoUser);
 
 }

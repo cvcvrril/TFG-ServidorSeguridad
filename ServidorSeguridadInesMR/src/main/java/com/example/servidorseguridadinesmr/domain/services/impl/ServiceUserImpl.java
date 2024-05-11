@@ -36,6 +36,11 @@ public class ServiceUserImpl implements ServiceUser {
     }
 
     @Override
+    public Either<ErrorSec, UserResponse> getUserById(int id) {
+        return daoUser.getUserById(id);
+    }
+
+    @Override
     public Either<ErrorSec, UserResponse> registro(UserDTO nuevoUser) {
         Either<ErrorSec, UserResponse> res;
         if (nuevoUser.getUsername() == null || nuevoUser.getPassword() == null || nuevoUser.getEmail() == null || nuevoUser.getUsername().equals("") || nuevoUser.getPassword().equals("") || nuevoUser.getEmail().equals("")) {

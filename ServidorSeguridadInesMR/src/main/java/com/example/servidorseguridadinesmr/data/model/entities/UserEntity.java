@@ -17,7 +17,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-        @NamedQuery(name = "GET_ALL_USERS", query = "from UserEntity")
+        @NamedQuery(name = "GET_ALL_USERS", query = "from UserEntity"),
+        @NamedQuery(name = "GET_ALL_USERS_BY_ID", query = "from UserEntity where id = :id"),
 })
 public class UserEntity {
 
