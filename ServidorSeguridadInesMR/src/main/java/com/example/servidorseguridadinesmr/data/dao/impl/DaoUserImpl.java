@@ -5,6 +5,7 @@ import com.example.servidorseguridadinesmr.data.model.UserResponse;
 import com.example.servidorseguridadinesmr.data.model.entities.UserEntity;
 import com.example.servidorseguridadinesmr.data.dao.DaoUser;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
+import com.example.servidorseguridadinesmr.utils.Constantes;
 import io.vavr.control.Either;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -16,6 +17,7 @@ import java.util.List;
 @Log4j2
 public class DaoUserImpl implements DaoUser {
 
+    public static final String NAMED_QUERY_GET_ALL_USERS_BY_ID = "GET_ALL_USERS_BY_ID";
     private EntityManager em;
     private final JPAUtil jpaUtil;
 
@@ -30,7 +32,7 @@ public class DaoUserImpl implements DaoUser {
         em = jpaUtil.getEntityManager();
         try {
             userList = em
-                    .createNamedQuery("GET_ALL_USERS", UserEntity.class)
+                    .createNamedQuery(Constantes.NAMED_QUERY_GET_ALL_USERS, UserEntity.class)
                     .getResultList();
             res = Either.right(userList);
         }catch (Exception e){
@@ -47,8 +49,8 @@ public class DaoUserImpl implements DaoUser {
         em = jpaUtil.getEntityManager();
         try {
             userList = em
-                    .createNamedQuery("GET_ALL_USERS_BY_ID", UserEntity.class)
-                    .setParameter("id", id)
+                    .createNamedQuery(NAMED_QUERY_GET_ALL_USERS_BY_ID, UserEntity.class)
+                    .setParameter(Constantes.ID, id)
                     .getResultList();
             UserEntity userEntity = userList.get(0);
             UserResponse userResponse = new UserResponse(userEntity.getCredential().getUsername(), userEntity.getCredential().getEmail(), userEntity.getNombreCompleto(), userEntity.getCredential().getRol().getRolName());

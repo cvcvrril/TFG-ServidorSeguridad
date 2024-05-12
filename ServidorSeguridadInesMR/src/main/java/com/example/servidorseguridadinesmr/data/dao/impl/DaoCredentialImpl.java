@@ -4,6 +4,7 @@ import com.example.servidorseguridadinesmr.data.dao.DaoCredential;
 import com.example.servidorseguridadinesmr.data.dao.connection.JPAUtil;
 import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
+import com.example.servidorseguridadinesmr.utils.Constantes;
 import io.vavr.control.Either;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -30,8 +31,8 @@ public class DaoCredentialImpl implements DaoCredential {
         em = jpaUtil.getEntityManager();
         try {
             credentialList = em
-                    .createNamedQuery("GET_CREDENTIALS_BY_USERNAME")
-                    .setParameter("username", username)
+                    .createNamedQuery(Constantes.NAMED_QUERY_GET_CREDENTIALS_BY_USERNAME)
+                    .setParameter(Constantes.USERNAME, username)
                     .getResultList();
             res = Either.right(credentialList.get(0));
         }catch (Exception e){
@@ -48,8 +49,8 @@ public class DaoCredentialImpl implements DaoCredential {
         em = jpaUtil.getEntityManager();
         try {
             credentialList = em
-                    .createNamedQuery("GET_CREDENTIALS_BY_EMAIL")
-                    .setParameter("email", email)
+                    .createNamedQuery(Constantes.NAMED_QUERY_GET_CREDENTIALS_BY_EMAIL)
+                    .setParameter(Constantes.EMAIL, email)
                     .getResultList();
             res = Either.right(credentialList.get(0));
         }catch (Exception e){
@@ -66,8 +67,8 @@ public class DaoCredentialImpl implements DaoCredential {
         em = jpaUtil.getEntityManager();
         try {
             credentialList = em
-                    .createNamedQuery("GET_CREDENTIALS_BY_AUTH_CODE")
-                    .setParameter("authCode", authCode)
+                    .createNamedQuery(Constantes.NAMED_QUERY_GET_CREDENTIALS_BY_AUTH_CODE)
+                    .setParameter(Constantes.AUTH_CODE, authCode)
                     .getResultList();
             res = Either.right(credentialList.get(0));
         }catch (Exception e){
