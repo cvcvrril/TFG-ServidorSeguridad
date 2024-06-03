@@ -6,4 +6,6 @@ public interface ServiceJWT {
 
     String generateAccessToken(String user, String rol);
 
+    String generateNewAccessToken(String refreshToken);
+
 }

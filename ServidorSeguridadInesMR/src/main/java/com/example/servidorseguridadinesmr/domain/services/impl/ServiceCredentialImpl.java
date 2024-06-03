@@ -1,9 +1,11 @@
 package com.example.servidorseguridadinesmr.domain.services.impl;
 
 import com.example.servidorseguridadinesmr.data.dao.DaoCredential;
+import com.example.servidorseguridadinesmr.data.dao.DaoUser;
 import com.example.servidorseguridadinesmr.data.model.AuthenticationRequest;
 import com.example.servidorseguridadinesmr.data.model.AuthenticationResponse;
 import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
+import com.example.servidorseguridadinesmr.data.model.entities.UserEntity;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
 import com.example.servidorseguridadinesmr.domain.model.error.exceptions.ValidationException;
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;
@@ -44,6 +46,9 @@ public class ServiceCredentialImpl implements ServiceCredential {
                         .accessToken(jwtToken)
                         .refreshToken(refreshToken)
                         .idUser(credential.getId())
+                        .username(credential.getUsername())
+                        .email(credential.getEmail())
+                        .rol(credential.getRol().getRolName())
                         .build();
             }
         } else {

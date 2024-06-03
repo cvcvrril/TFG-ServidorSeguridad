@@ -18,7 +18,8 @@ public class Constantes {
             "/activation",
             "/auth/forgotPassword",
             "/forgotPassword",
-            "/user/byId"
+            "/user/byId",
+            "/auth/refreshToken"
     };
 
     public static final String ACCESS_TOKEN = "access_token";

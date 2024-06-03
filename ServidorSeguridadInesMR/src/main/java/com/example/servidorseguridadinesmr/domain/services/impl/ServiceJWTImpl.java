@@ -1,7 +1,13 @@
 package com.example.servidorseguridadinesmr.domain.services.impl;
 
+import com.example.servidorseguridadinesmr.data.dao.DaoCredential;
+import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
 import com.example.servidorseguridadinesmr.domain.model.error.exceptions.DatabaseException;
+import com.example.servidorseguridadinesmr.domain.model.error.exceptions.ValidationException;
 import com.example.servidorseguridadinesmr.domain.services.ServiceJWT;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileInputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -28,6 +35,8 @@ public class ServiceJWTImpl implements ServiceJWT {
     private String password;
     @Value("${application.security.keystore.userkeystore}")
     private String userkeystore;
+
+    private final DaoCredential daoCredential;
 
     @Override
     public String generateRefreshToken(String user) {
@@ -54,6 +63,42 @@ public class ServiceJWTImpl implements ServiceJWT {
                 .compact();
     }
 
+    @Override
+    public String generateNewAccessToken(String refreshToken) {
+        if (refreshToken != null){
+            //final String tokenSplit = refreshToken.split(" ")[1].trim();
+            if (checkToken(refreshToken)){
+                Jws<Claims> claimsJws = Jwts.parserBuilder()
+                        .setSigningKey(getPublicKey())
+                        .build()
+                        .parseClaimsJws(refreshToken);
+                String username = claimsJws.getBody().getSubject();
+                CredentialEntity credentialRefresh = daoCredential.findByUsername(username).getOrElseThrow(() -> new DatabaseException("No se encuentra la credencial."));
+                return generateAccessToken(credentialRefresh.getUsername(), credentialRefresh.getRol().getRolName());
+            }
+        }else {
+            throw new ValidationException("El refresh token es nulo.");
+        }
+        return null;
+    }
+
+
+    private boolean checkToken(String token){
+        try {
+
+            Jws<Claims> claimsJws = Jwts.parserBuilder()
+                    .setSigningKey(getPublicKey())
+                    .build()
+                    .parseClaimsJws(token);
+
+            long expirationMillis = claimsJws.getBody().getExpiration().getTime();
+            return System.currentTimeMillis() < expirationMillis;
+
+        } catch (ExpiredJwtException e) {
+            throw new ValidationException("El token ha expirado.");
+        }
+    }
+
     private PrivateKey getPrivateKey() {
         try {
             KeyStore ks = KeyStore.getInstance("PKCS12");
@@ -64,6 +109,24 @@ public class ServiceJWTImpl implements ServiceJWT {
             KeyStore.PrivateKeyEntry pkEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(userkeystore, pt);
             if (pkEntry != null) {
                 return pkEntry.getPrivateKey();
+            } else {
+                throw new DatabaseException("No se encontró la entrada de la clave privada en la keystore");
+            }
+        } catch (Exception e) {
+            throw new DatabaseException("Error al cargar la clave privada de la keystore");
+        }
+    }
+
+    private PublicKey getPublicKey() {
+        try {
+            KeyStore ks = KeyStore.getInstance("PKCS12");
+            try (FileInputStream fis = new FileInputStream(path)) {
+                ks.load(fis, password.toCharArray());
+            }
+            KeyStore.PasswordProtection pt = new KeyStore.PasswordProtection(password.toCharArray());
+            KeyStore.PrivateKeyEntry pkEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(userkeystore, pt);
+            if (pkEntry != null) {
+                return pkEntry.getCertificate().getPublicKey();
             } else {
                 throw new DatabaseException("No se encontró la entrada de la clave privada en la keystore");
             }

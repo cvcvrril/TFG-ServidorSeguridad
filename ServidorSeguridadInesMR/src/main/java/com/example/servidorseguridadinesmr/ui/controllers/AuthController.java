@@ -8,6 +8,7 @@ import com.example.servidorseguridadinesmr.domain.model.UserDTO;
 import com.example.servidorseguridadinesmr.domain.model.error.exceptions.ValidationException;
 import com.example.servidorseguridadinesmr.domain.services.EmailService;
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;
+import com.example.servidorseguridadinesmr.domain.services.ServiceJWT;
 import com.example.servidorseguridadinesmr.domain.services.ServiceUser;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class AuthController {
     private final ServiceCredential serviceCredential;
     private final ServiceUser serviceUser;
     private final EmailService emailService;
+    private final ServiceJWT jwtService;
 
     @GetMapping("/login")
     public AuthenticationResponse loginAuth(@RequestParam("username") String username, @RequestParam("password") String password) {
@@ -37,15 +39,18 @@ public class AuthController {
     public void forgotPassword(@RequestParam("email") String email){
         CredentialEntity credential = serviceCredential.findByEmail(email).get();
         if (credential == null){
-            throw new ValidationException("No se ha encontrado ninguna cuenta con este email");
+            throw new ValidationException("No se ha encontrado ninguna cuenta con este email.");
         }else {
             emailService.sendEmailForgotPassword(credential.getEmail(), credential.getAuthCode());
         }
     }
 
-
-    public String refreshToken(){
-        return "";
+    @GetMapping("/refreshToken")
+    public String refreshToken(@RequestParam("token") String refreshToken){
+        if (refreshToken == null){
+            throw new ValidationException("El refreshToken es nulo.");
+        }else {
+            return jwtService.generateNewAccessToken(refreshToken);
+        }
     }
-
 }
