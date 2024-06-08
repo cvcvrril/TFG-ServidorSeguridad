@@ -10,13 +10,13 @@ import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
 import com.example.servidorseguridadinesmr.domain.model.error.exceptions.ValidationException;
 import com.example.servidorseguridadinesmr.domain.services.EmailService;
 import com.example.servidorseguridadinesmr.domain.services.ServiceUser;
+import com.example.servidorseguridadinesmr.utils.Constantes;
 import com.example.servidorseguridadinesmr.utils.RandomBytesGenerator;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,7 +44,7 @@ public class ServiceUserImpl implements ServiceUser {
     public Either<ErrorSec, UserResponse> registro(UserDTO nuevoUser) {
         Either<ErrorSec, UserResponse> res;
         if (nuevoUser.getUsername() == null || nuevoUser.getPassword() == null || nuevoUser.getEmail() == null || nuevoUser.getUsername().equals("") || nuevoUser.getPassword().equals("") || nuevoUser.getEmail().equals("")) {
-            throw new ValidationException("Hay alguno de los campos vacíos");
+            throw new ValidationException(Constantes.HAY_ALGUNO_DE_LOS_CAMPOS_VACIOS);
         } else {
             try {
                 checkEmailRegex(nuevoUser.getEmail());
@@ -57,7 +57,7 @@ public class ServiceUserImpl implements ServiceUser {
                     emailService.sendEmailActivacion(nuevoUser.getEmail(), newAuthCode);
                     res = Either.right(nuevoUserResponse);
                 }else {
-                    throw new ValidationException("Hubo un error en la validación de los datos");
+                    throw new ValidationException(Constantes.HUBO_UN_ERROR_EN_LA_VALIDACION_DE_LOS_DATOS);
                 }
             } catch (Exception e) {
                 throw new ValidationException(e.getMessage());
@@ -71,11 +71,11 @@ public class ServiceUserImpl implements ServiceUser {
     }
 
     private void checkEmailRegex(String email){
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String emailRegex = Constantes.EMAIL_REGEX;
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches()){
-            throw new ValidationException("El email introducido no es válido");
+            throw new ValidationException(Constantes.EL_EMAIL_INTRODUCIDO_NO_ES_VALIDO);
         }
     }
 }

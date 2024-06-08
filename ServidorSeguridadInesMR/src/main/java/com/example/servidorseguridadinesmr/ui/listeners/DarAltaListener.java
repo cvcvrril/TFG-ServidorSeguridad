@@ -12,23 +12,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class ActivationListener {
+public class DarAltaListener {
 
     private final ServiceCredential serviceCredential;
 
-    @RequestMapping(value= Constantes.ACTIVATION_PATH, method= {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value= Constantes.DAR_ALTA_PATH, method= {RequestMethod.GET, RequestMethod.POST})
     public void activation(@RequestParam(Constantes.AUTH_CODE)String authCode){
         CredentialEntity credencialAuth = serviceCredential.findByAuthCode(authCode).getOrElseThrow(()-> new RuntimeException());
         if (credencialAuth != null){
-            if (credencialAuth.getAuth().equals(true)){
-                throw new ValidationException(Constantes.LA_CUENTA_YA_HA_SIDO_ACTIVADA_HAGA_LOGIN);
+            if (credencialAuth.getBaja().equals(false)){
+                throw new ValidationException(Constantes.LA_CUENTA_YA_HA_SIDO_DADA_DE_ALTA_HAGA_LOGIN);
             }else {
-                credencialAuth.setAuth(true);
+                credencialAuth.setBaja(false);
                 serviceCredential.update(credencialAuth);
             }
         }else {
             throw new ValidationException(Constantes.LA_CREDENCIAL_NO_EXISTE);
         }
     }
+
 
 }

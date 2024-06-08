@@ -10,13 +10,13 @@ import com.example.servidorseguridadinesmr.domain.services.EmailService;
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;
 import com.example.servidorseguridadinesmr.domain.services.ServiceJWT;
 import com.example.servidorseguridadinesmr.domain.services.ServiceUser;
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.servidorseguridadinesmr.utils.Constantes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping(Constantes.AUTH_PATH)
 public class AuthController {
 
     private final ServiceCredential serviceCredential;
@@ -24,33 +24,45 @@ public class AuthController {
     private final EmailService emailService;
     private final ServiceJWT jwtService;
 
-    @GetMapping("/login")
-    public AuthenticationResponse loginAuth(@RequestParam("username") String username, @RequestParam("password") String password) {
+    @GetMapping(Constantes.LOGIN_PATH)
+    public AuthenticationResponse loginAuth(@RequestParam(Constantes.USERNAME) String username, @RequestParam(Constantes.PASSWORD) String password) {
         AuthenticationRequest requestAuth = new AuthenticationRequest(username, password);
         return serviceCredential.authenticate(requestAuth);
     }
 
-    @PostMapping("/registro")
+    @PostMapping(Constantes.REGISTRO_PATH)
     public UserResponse registroAuth(@RequestBody UserDTO newUser) {
-        return serviceUser.registro(newUser).getOrElseThrow( () -> new RuntimeException());
+        return serviceUser.registro(newUser).getOrElseThrow(() -> new RuntimeException());
     }
 
-    @PostMapping("/forgotPassword")
-    public void forgotPassword(@RequestParam("email") String email){
+    @PostMapping(Constantes.FORGOT_PASSWORD_PATH)
+    public void forgotPassword(@RequestParam(Constantes.EMAIL) String email) {
         CredentialEntity credential = serviceCredential.findByEmail(email).get();
-        if (credential == null){
-            throw new ValidationException("No se ha encontrado ninguna cuenta con este email.");
-        }else {
+        if (credential == null) {
+            throw new ValidationException(Constantes.NO_SE_HA_ENCONTRADO_NINGUNA_CUENTA_CON_ESTE_EMAIL);
+        } else {
             emailService.sendEmailForgotPassword(credential.getEmail(), credential.getAuthCode());
         }
     }
 
-    @GetMapping("/refreshToken")
-    public String refreshToken(@RequestParam("token") String refreshToken){
-        if (refreshToken == null){
-            throw new ValidationException("El refreshToken es nulo.");
-        }else {
+    @GetMapping(Constantes.REFRESH_TOKEN_PATH)
+    public String refreshToken(@RequestParam(Constantes.TOKEN) String refreshToken) {
+        if (refreshToken == null) {
+            throw new ValidationException(Constantes.EL_REFRESH_TOKEN_ES_NULO);
+        } else {
             return jwtService.generateNewAccessToken(refreshToken);
+        }
+    }
+
+    @PostMapping(Constantes.DAR_BAJA_PATH)
+    public void darBaja(@RequestParam(Constantes.EMAIL) String email) {
+        CredentialEntity credential = serviceCredential.findByEmail(email).get();
+        if (credential == null) {
+            throw new ValidationException(Constantes.NO_SE_HA_ENCONTRADO_NINGUNA_CUENTA_CON_ESTE_EMAIL);
+        }else {
+            if (serviceCredential.darBaja(credential).isRight()){
+                emailService.sendEmailBaja(credential.getEmail(), credential.getAuthCode());
+            }
         }
     }
 }

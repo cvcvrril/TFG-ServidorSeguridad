@@ -7,6 +7,7 @@ import com.example.servidorseguridadinesmr.data.dao.impl.DaoCredentialImpl;
 import com.example.servidorseguridadinesmr.data.dao.impl.DaoUserImpl;
 import com.example.servidorseguridadinesmr.data.dao.repositories.CredentialsRepository;
 import com.example.servidorseguridadinesmr.domain.services.CustomUserDetailsService;
+import com.example.servidorseguridadinesmr.utils.Constantes;
 import com.example.servidorseguridadinesmr.utils.RandomBytesGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.TemplateEngine;
 
 import java.util.Properties;
 
@@ -56,13 +58,12 @@ public class Configuration {
     }
 
     @Bean
+    public TemplateEngine templateEngine(){return new TemplateEngine();}
+
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
-    /**
-     * Más adelante, sacar las cosas del application.properties ;)
-     * */
 
     @Bean
     public JavaMailSender getJavaMailSender() {
@@ -74,10 +75,10 @@ public class Configuration {
         mailSender.setPassword(fromPassword);
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
+        props.put(Constantes.MAIL_TRANSPORT_PROTOCOL, Constantes.SMTP);
+        props.put(Constantes.MAIL_SMTP_AUTH, Constantes.TRUE);
+        props.put(Constantes.MAIL_SMTP_STARTTLS_ENABLE, Constantes.TRUE);
+        props.put(Constantes.MAIL_DEBUG, Constantes.TRUE);
 
         return mailSender;
     }

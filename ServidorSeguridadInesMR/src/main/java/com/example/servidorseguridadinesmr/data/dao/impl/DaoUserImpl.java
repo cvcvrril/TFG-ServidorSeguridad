@@ -17,7 +17,7 @@ import java.util.List;
 @Log4j2
 public class DaoUserImpl implements DaoUser {
 
-    public static final String NAMED_QUERY_GET_ALL_USERS_BY_ID = "GET_ALL_USERS_BY_ID";
+
     private EntityManager em;
     private final JPAUtil jpaUtil;
 
@@ -49,7 +49,7 @@ public class DaoUserImpl implements DaoUser {
         em = jpaUtil.getEntityManager();
         try {
             userList = em
-                    .createNamedQuery(NAMED_QUERY_GET_ALL_USERS_BY_ID, UserEntity.class)
+                    .createNamedQuery(Constantes.NAMED_QUERY_GET_ALL_USERS_BY_ID, UserEntity.class)
                     .setParameter(Constantes.ID, id)
                     .getResultList();
             UserEntity userEntity = userList.get(0);

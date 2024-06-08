@@ -24,6 +24,7 @@ public class MainKeyStore {
     @Value("${application.security.keystore.password}")
     private static final String keyStorePassword = "password";
 
+
     public static void main(String[] args) {
 
         try {
@@ -47,12 +48,11 @@ public class MainKeyStore {
             X509Certificate cert =  cert1.generate(clavePrivada);
 
             KeyStore ks = KeyStore.getInstance(Constantes.PKCS_12);
-            //String passwordString = Constantes.PASSWORD_STRING;
             char[] password = keyStorePassword.toCharArray();
             ks.load(null, null);
             ks.setCertificateEntry(Constantes.SERVER, cert);
             ks.setKeyEntry(Constantes.SERVER, clavePrivada, password, new Certificate[]{cert});
-            FileOutputStream fos = new FileOutputStream(Constantes.KEYSTORE_PFX);
+            FileOutputStream fos = new FileOutputStream(Constantes.KEYSTORE_JKS);
             ks.store(fos, password);
             fos.close();
 

@@ -5,7 +5,6 @@ import com.example.servidorseguridadinesmr.domain.model.error.exceptions.Validat
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,7 +14,6 @@ public class ForgotPasswordListener {
 
     @RequestMapping(value="/forgotPassword", method= {RequestMethod.GET, RequestMethod.POST})
     public void changePassword(@RequestParam("authCode") String authCode, @ModelAttribute("newPassword") String newPassword){
-        //String newPassword = "";
         CredentialEntity credencialAuth = serviceCredential.findByAuthCode(authCode).getOrElseThrow(()-> new RuntimeException());
         if (credencialAuth != null){
             if (credencialAuth.getPass().equals(true)){

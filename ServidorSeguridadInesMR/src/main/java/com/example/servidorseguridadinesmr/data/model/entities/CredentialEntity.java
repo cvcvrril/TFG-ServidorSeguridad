@@ -4,6 +4,8 @@ package com.example.servidorseguridadinesmr.data.model.entities;
  * @author Inés Martínez Rodríguez
  * **/
 
+import com.example.servidorseguridadinesmr.utils.Constantes;
+import com.example.servidorseguridadinesmr.utils.QueriesHQL;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,34 +15,34 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "credentials")
+@Table(name = Constantes.TABLE_CREDENTIALS)
 @NamedQueries({
-        @NamedQuery(name = "GET_CREDENTIALS_BY_USERNAME", query = "from CredentialEntity where username = :username"),
-        @NamedQuery(name = "GET_CREDENTIALS_BY_EMAIL", query = "from CredentialEntity where email = :email"),
-        @NamedQuery(name = "GET_CREDENTIALS_BY_AUTH_CODE", query = "from CredentialEntity where authCode = :authCode")
+        @NamedQuery(name = Constantes.GET_CREDENTIALS_BY_USERNAME, query = QueriesHQL.GET_CREDENTIALS_BY_USERNAME),
+        @NamedQuery(name = Constantes.GET_CREDENTIALS_BY_EMAIL, query = QueriesHQL.GET_CREDENTIALS_BY_EMAIL),
+        @NamedQuery(name = Constantes.GET_CREDENTIALS_BY_AUTH_CODE, query = QueriesHQL.GET_CREDENTIALS_BY_AUTH_CODE)
 })
 public class CredentialEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = Constantes.ID)
     private int id;
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = Constantes.USERNAME, unique = true, nullable = false)
     private String username;
-    @Column(name = "password", nullable = false)
+    @Column(name = Constantes.PASSWORD, nullable = false)
     private String password;
-    @Column(name = "email", nullable = false)
+    @Column(name = Constantes.EMAIL, nullable = false)
     private String email;
-    @Column(name = "autenticado")
+    @Column(name = Constantes.AUTENTICADO)
     private Boolean auth;
-    @Column(name = "baja")
+    @Column(name = Constantes.BAJA)
     private Boolean baja;
-    @Column(name = "pass")
+    @Column(name = Constantes.PASS)
     private Boolean pass;
-    @Column(name = "auth_code")
+    @Column(name = Constantes.AUTH_COD)
     private String authCode;
     @ManyToOne
-    @JoinColumn(name = "rol")
+    @JoinColumn(name = Constantes.ROL)
     private RolEntity rol;
 
 }
