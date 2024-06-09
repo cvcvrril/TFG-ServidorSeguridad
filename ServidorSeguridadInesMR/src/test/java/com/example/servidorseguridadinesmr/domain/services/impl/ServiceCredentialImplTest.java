@@ -5,6 +5,7 @@ import com.example.servidorseguridadinesmr.data.dao.connection.JPAUtil;
 import com.example.servidorseguridadinesmr.data.dao.impl.DaoCredentialImpl;
 import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
 import com.example.servidorseguridadinesmr.data.model.entities.RolEntity;
+import com.example.servidorseguridadinesmr.domain.model.CredentialDTO;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;
 import com.example.servidorseguridadinesmr.domain.services.ServiceJWT;

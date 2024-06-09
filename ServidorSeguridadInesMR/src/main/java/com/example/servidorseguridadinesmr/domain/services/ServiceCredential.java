@@ -3,6 +3,7 @@ package com.example.servidorseguridadinesmr.domain.services;
 import com.example.servidorseguridadinesmr.data.model.AuthenticationRequest;
 import com.example.servidorseguridadinesmr.data.model.AuthenticationResponse;
 import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
+import com.example.servidorseguridadinesmr.domain.model.CredentialDTO;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
 import io.vavr.control.Either;
 

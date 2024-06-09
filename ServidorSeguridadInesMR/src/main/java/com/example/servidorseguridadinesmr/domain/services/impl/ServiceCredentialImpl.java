@@ -4,6 +4,7 @@ import com.example.servidorseguridadinesmr.data.dao.DaoCredential;
 import com.example.servidorseguridadinesmr.data.model.AuthenticationRequest;
 import com.example.servidorseguridadinesmr.data.model.AuthenticationResponse;
 import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
+import com.example.servidorseguridadinesmr.domain.model.CredentialDTO;
 import com.example.servidorseguridadinesmr.domain.model.error.ErrorSec;
 import com.example.servidorseguridadinesmr.domain.model.error.exceptions.ValidationException;
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;

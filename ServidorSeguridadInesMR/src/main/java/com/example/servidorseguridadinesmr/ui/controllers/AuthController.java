@@ -32,7 +32,7 @@ public class AuthController {
 
     @PostMapping(Constantes.REGISTRO_PATH)
     public UserResponse registroAuth(@RequestBody UserDTO newUser) {
-        return serviceUser.registro(newUser).getOrElseThrow(() -> new RuntimeException());
+        return serviceUser.registro(newUser).getOrElseThrow(() -> new ValidationException(Constantes.HUBO_UN_ERROR));
     }
 
     @PostMapping(Constantes.FORGOT_PASSWORD_PATH)

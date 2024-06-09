@@ -1,6 +1,8 @@
 package com.example.servidorseguridadinesmr.ui.listeners;
 
 import com.example.servidorseguridadinesmr.data.model.entities.CredentialEntity;
+import com.example.servidorseguridadinesmr.domain.model.CredentialDTO;
+import com.example.servidorseguridadinesmr.domain.model.error.exceptions.DatabaseException;
 import com.example.servidorseguridadinesmr.domain.model.error.exceptions.ValidationException;
 import com.example.servidorseguridadinesmr.domain.services.ServiceCredential;
 import com.example.servidorseguridadinesmr.utils.Constantes;
@@ -18,7 +20,7 @@ public class DarAltaListener {
 
     @RequestMapping(value= Constantes.DAR_ALTA_PATH, method= {RequestMethod.GET, RequestMethod.POST})
     public void activation(@RequestParam(Constantes.AUTH_CODE)String authCode){
-        CredentialEntity credencialAuth = serviceCredential.findByAuthCode(authCode).getOrElseThrow(()-> new RuntimeException());
+        CredentialEntity credencialAuth = serviceCredential.findByAuthCode(authCode).getOrElseThrow(()-> new DatabaseException(Constantes.NO_SE_HA_ENCONTRADO_LA_CREDENCIAL));
         if (credencialAuth != null){
             if (credencialAuth.getBaja().equals(false)){
                 throw new ValidationException(Constantes.LA_CUENTA_YA_HA_SIDO_DADA_DE_ALTA_HAGA_LOGIN);

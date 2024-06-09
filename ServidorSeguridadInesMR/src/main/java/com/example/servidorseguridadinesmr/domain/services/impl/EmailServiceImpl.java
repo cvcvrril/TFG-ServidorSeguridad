@@ -1,6 +1,7 @@
 package com.example.servidorseguridadinesmr.domain.services.impl;
 
 
+import com.example.servidorseguridadinesmr.domain.model.error.exceptions.EmailException;
 import com.example.servidorseguridadinesmr.domain.services.EmailService;
 import com.example.servidorseguridadinesmr.utils.Constantes;
 import jakarta.mail.MessagingException;
@@ -12,7 +13,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 @Component
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
                     "<html><body><p>¡Saludos!</p></br><p>Este correo ha sido enviado para que pueda activar su cuenta en el <a href=\"http://192.168.104.104:8081/activation?authCode=" + authCode + "\">siguiente enlace</a></p><p>Si no se ha registrado, ignore el mensaje.</p></body></html>",true
                     );
         }catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new EmailException(e.getMessage());
         }
 
     }
@@ -59,7 +59,7 @@ public class EmailServiceImpl implements EmailService {
             );
             emailSender.send(message);
         }catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new EmailException(e.getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ public class EmailServiceImpl implements EmailService {
             );
             emailSender.send(message);
         }catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new EmailException(e.getMessage());
         }
     }
 

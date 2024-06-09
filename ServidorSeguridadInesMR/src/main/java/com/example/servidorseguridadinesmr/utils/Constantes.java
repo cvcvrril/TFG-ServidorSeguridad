@@ -21,7 +21,6 @@ public class Constantes {
     public static final String SHA_256_WITH_RSA_ENCRYPTION = "SHA256WithRSAEncryption";
     public static final String SERVER = "server";
     public static final String PERSISTENCE_UNIT_NAME = "unit3.hibernate";
-
     public static final String TABLE_ROLES = "roles";
     public static final String ID = "id";
     public static final String ROL = "rol";
@@ -48,7 +47,6 @@ public class Constantes {
     public static final String LOGIN_PATH = "/login";
     public static final String REGISTRO_PATH = "/registro";
     public static final String FORGOT_PASSWORD_PATH = "/forgotPassword";
-
     public static final String REFRESH_TOKEN_PATH = "/refreshToken";
     public static final String DAR_BAJA_PATH = "/darBaja";
     public static final String NO_SE_HA_ENCONTRADO_NINGUNA_CUENTA_CON_ESTE_EMAIL = "No se ha encontrado ninguna cuenta con este email.";
@@ -64,7 +62,6 @@ public class Constantes {
     public static final String NO_HAY_CREDENCIALES_CON_ESE_USERNAME = "No hay credenciales con ese username.";
     public static final String NO_SE_PUDO_DAR_DE_BAJA_AL_USUARIO = "No se pudo dar de baja al usuario.";
     public static final String LA_CUENTA_ESTA_DADA_DE_BAJA = "La cuenta está dada de baja.";
-    public static final String EL_TOKEN_HA_EXPIRADO = "El token ha expirado.";
     public static final String NO_SE_ENCONTRO_LA_ENTRADA_DE_LA_CLAVE_PRIVADA_EN_LA_KEYSTORE = "No se encontró la entrada de la clave privada en la keystore";
     public static final String NO_EXISTE_LA_CUENTA_CON_ESE_USERNAME = "No existe la cuenta con ese username";
     public static final String ERROR_AL_CARGAR_LA_CLAVE_PRIVADA_DE_LA_KEYSTORE = "Error al cargar la clave privada de la keystore";
@@ -84,6 +81,9 @@ public class Constantes {
     public static final String LA_CREDENCIAL_NO_EXISTE = "La credencial no existe.";
     public static final String DAR_ALTA_PATH = "/darAlta";
     public static final String LA_CUENTA_YA_HA_SIDO_DADA_DE_ALTA_HAGA_LOGIN = "La cuenta ya ha sido dada de alta. Haga login.";
+    public static final String NO_SE_HA_ENCONTRADO_LA_CREDENCIAL = "No se ha encontrado la credencial.";
+    public static final String HUBO_UN_ERROR = "Hubo un error";
+    public static final String EL_TOKEN_HA_EXPIRADO = "El token ha expirado";
 
 
     public Constantes() {

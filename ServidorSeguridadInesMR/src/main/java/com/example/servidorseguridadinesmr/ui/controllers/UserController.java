@@ -17,8 +17,7 @@ public class UserController {
     private final ServiceUser serviceUser;
 
     @GetMapping(Constantes.BY_ID)
-    public UserResponse loginAuth(@RequestParam(Constantes.ID) int id ) {
+    public UserResponse getUserById(@RequestParam(Constantes.ID) int id ) {
         return serviceUser.getUserById(id).get();
     }
-
 }
