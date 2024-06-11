@@ -39,6 +39,9 @@ public class ServiceCredentialImpl implements ServiceCredential {
             if (!checkActivation(credential.getUsername())){
                 throw new ValidationException(Constantes.DEBE_DE_ACTIVAR_LA_CUENTA);
             }else {
+                if (credential.getPass()){
+                    credential.setPass(false);
+                }
                 var jwtToken = serviceJWT.generateAccessToken(credential.getUsername(), credential.getRol().getRolName());
                 var refreshToken = serviceJWT.generateRefreshToken(credential.getUsername());
                 return AuthenticationResponse.builder()

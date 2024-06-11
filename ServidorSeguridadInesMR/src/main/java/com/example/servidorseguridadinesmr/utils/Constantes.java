@@ -84,6 +84,12 @@ public class Constantes {
     public static final String NO_SE_HA_ENCONTRADO_LA_CREDENCIAL = "No se ha encontrado la credencial.";
     public static final String HUBO_UN_ERROR = "Hubo un error";
     public static final String EL_TOKEN_HA_EXPIRADO = "El token ha expirado";
+    public static final String NOMBRE_COMPLETO = "nombre_completo";
+    public static final String FECHA_NACIMIENTO = "fecha_nacimiento";
+    public static final String CREDENTIAL = "credential";
+    public static final String BASE_URL = "http://192.168.1.138";
+    public static final String FORGOT_PASSWORD_LIS_PATH = "/forgotPasswordLis";
+    public static final String LA_CONTRASENA_DE_ESTA_CUENTA_YA_HA_SIDO_CAMBIADA_HAGA_LOGIN = "La contraseña de esta cuenta ya ha sido cambiada. Haga login.";
 
 
     public Constantes() {

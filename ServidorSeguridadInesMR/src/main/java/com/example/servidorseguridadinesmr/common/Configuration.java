@@ -21,7 +21,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.thymeleaf.TemplateEngine;
 
 import java.util.Properties;
 
@@ -56,9 +55,6 @@ public class Configuration {
     public DaoUser daoUser(){
         return new DaoUserImpl(jpaUtil());
     }
-
-    @Bean
-    public TemplateEngine templateEngine(){return new TemplateEngine();}
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
